@@ -1,0 +1,28 @@
+Attendees: Rishi, Hunter, Ethan, Henry, Andy
+
+Meeting 1 (2/9/23)
+
+Next Meeting: Monday (2/13/23)
+
+Project Idea: SEI Scraper
+
+Possible URL: https://registrar.osu.edu/secure/sei_search/
+
+Things the scraper would do
+
+- Take in name of course or instructor name
+- Output a well formatted HTML page with a table of past SEI ratings
+- As of right now, only parse through CSE courses
+
+
+Possible Additions
+
+- Option to add other majors depending on time left for project
+- Upload the SEI Data to a u.osu.edu website
+
+Things to do
+
+- Look into specific classes we might need
+- Confirm idea with Prof.
+- Look into possible u.osu.edu configuration stuff (API integration maybe)
+- Look for other SEI websites 
