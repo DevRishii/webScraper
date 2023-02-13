@@ -1,0 +1,20 @@
+Attendees: Rishi, Hunter, Ethan, Mia, Henry
+
+Meeting 2 (2/13/23)
+
+Next Meeting: Tuesday (2/14/23)
+
+In this meeting, we set up all of the classes that we think that we will need.
+
+Delegation:
+
+- Hunter: addTableInfo and output
+- Rishi: startTable and endTable
+- Mia: startPage and endPage
+- Ethan: startHeader and endHeader
+- Henry: addHeaderInfo
+
+Goal: Our goal is to have HTML code completed by thursday.
+
+Reminder: If you push code, make sure to let everybody know in the discord.
+Also, remember to create a branch for the code you push.
