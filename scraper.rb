@@ -2,7 +2,7 @@
 class Scraper
 
 
-    def initialize(name, campus = COL, dpt = cse, course)
+    def initialize(name = "", campus = COL, dpt = cse, course = "")
     
         @name = name
         @campus = campus

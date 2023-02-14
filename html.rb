@@ -3,7 +3,13 @@ class HTML
 
     def initialize(fileName)
     
-        @fileName = "#{fileName}.html"
+        # This will add .html extension to the end of the file name
+        # if the user did not add it or made a typo.
+        if fileName.end_with?(".html")
+            @fileName = fileName
+        else
+            @fileName = "#{fileName}.html"
+        end
     end
 
     # start html page
@@ -31,13 +37,18 @@ class HTML
 
     end
 
-    # add info to table
-    def addTableInfo
+    # add a row of info to table
+    def addTableInfo(fileContents, instructor, course, term, numberOfSEIs, averageRating)
 
+        fileContents += "<tr><td>#{instructor}</td><td>#{course}</td><td>#{term}</td><td>#{numberOfSEIs}</td><td>#{averageRating}</td></tr>"
     end
 
     # start a formatted table from SEI
     def startTable
+
+        # <style type=\"text/css\">table, th, td { border: 1px solid black; border-collapse: collapse; padding: 5px; }</style>
+        # ^ If you want to use it, here is a table style I created for my own testing.
+        # -Hunter
 
     end
 
