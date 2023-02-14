@@ -1,9 +1,9 @@
 # output stuff and processing SEI into HTML format
 class HTML
 
-    def Initialize(fileName)
+    def initialize(fileName)
     
-        @fileName = fileName
+        @fileName = "#{fileName}.html"
     end
 
     # start html page
@@ -47,8 +47,9 @@ class HTML
     end
 
     # output html file (creates html file)
-    def output
+    def output(fileContents)
 
+        File.open(@fileName, "w") {|f| f.write(fileContents)}     
     end
 
 end
