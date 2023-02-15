@@ -44,7 +44,26 @@ class HTML
     end
 
     # start a formatted table from SEI
-    def startTable
+    def startTable(fileContents)
+
+        fileContents += "<table> <style>
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        th, td {
+          padding: 8px;
+          text-align: left;
+          border-bottom: 1px solid #ddd;
+        }
+        
+        tr:hover {background-color: #D6EEEE;}
+        </style>"
+
+        # <style type=\"text/css\">table, th, td { border: 1px solid black; border-collapse: collapse; padding: 5px; }</style>
+        # ^ If you want to use it, here is a table style I created for my own testing.
+        # -Hunter
 
         # <style type=\"text/css\">table, th, td { border: 1px solid black; border-collapse: collapse; padding: 5px; }</style>
         # ^ If you want to use it, here is a table style I created for my own testing.
@@ -54,7 +73,7 @@ class HTML
 
     # end a formatted table from SEI
     def endTable
-
+        fileContents += "</table>"
     end
 
     # output html file (creates html file)
