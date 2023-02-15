@@ -1,5 +1,7 @@
+require "selenium-webdriver"
+
 # logic for getting SEI
-class Scraper
+class Scraper inherits Selenium::WebDriver
 
 
     def initialize(name = "", campus = COL, dpt = cse, course = "")
@@ -10,29 +12,35 @@ class Scraper
         @course = course
     end
 
-    # pass instructor name into intructor field
-    def instructor
+    # Asks the user for the name of the instructor and passes that into the appropriate field
+    # Does not return anything
+    def instructor(driver)
 
     end
 
-    # pass campus into campus field
-    def campus
+    # Asks the user for the name of the campus and passes that into the appropriate field
+    # Does not return anything
+    def campus(driver)
 
     end
 
-    # pass department into department field
-    def department
+    # Asks the user for the name of the instructor and passes that into the appropriate field
+    # Does not return anything
+    def department(driver)
 
     end
 
-    # pass course number into course field
-    def course
+    # Asks the user for the number of the course and passes that into the appropriate field
+    # Does not return anything
+    def course(driver)
 
     end
 
-    # get infro from SEI
-    def retrieveSEI
-
+    # Retrieves all necessary info from the SEI table once its generated
+    # then creates an array which holds different "Professor" objects of all the 
+    # instances of that professor on the table
+    def retrieveSEI(driver)
+        
     end
 
 end

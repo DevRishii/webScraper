@@ -1,0 +1,25 @@
+Attendees: Rishi, Hunter, Ethan, Mia, Henry, Andy
+
+Meeting 3 (2/14/23)
+
+Next Meeting: Thurday (2/16/23)
+
+This meeting we went over main.rb and scraper.rb and figured out how to actually scrape the website for information
+
+Delegation:
+
+- Hunter: retrieveSEI
+- Rishi: main.rb
+- Mia: course function
+- Ethan: instructor function
+- Henry: campus function
+- Andy: department function
+
+GOALS:
+    Try to have everything done by thursday. Ask for help in the team chat if needed.
+    Have HTML code done by thursday.
+
+REMINDERS:
+    Make sure to create a branch for whatever code you are working on. If you feel comfortable merging 
+    go for it, if not we can do that together next meeting. 
+    Inform the chat whenever code gets pushed to avoid merge conflicts.
