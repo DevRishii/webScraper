@@ -1,10 +1,11 @@
+require "./professor.rb"
 require "selenium-webdriver"
 
 # logic for getting SEI
-class Scraper inherits Selenium::WebDriver
+class Scraper #inherits Selenium::WebDriver
 
 
-    def initialize(name = "", campus = COL, dpt = cse, course = "")
+    def initialize(name = "", campus = "COL", dpt = "cse", course = "")
     
         @name = name
         @campus = campus
@@ -40,7 +41,21 @@ class Scraper inherits Selenium::WebDriver
     # then creates an array which holds different "Professor" objects of all the 
     # instances of that professor on the table
     def retrieveSEI(driver)
-        
+
+        table = driver.find_element(id: 'dgSEI')
+        tableRows = table.find_elements(xpath: '//tr')
+        professors = Array.new
+
+        for i in 1..tableRows.length - 1 do
+            professors.push(Professor.new(tableRows[i].find_element(xpath: './td[last()-9]').text, 
+            tableRows[i].find_element(xpath: './td[last()-8]').text, 
+            tableRows[i].find_element(xpath: './td[last()-7]').text, 
+            tableRows[i].find_element(xpath: './td[last()-6]').text,
+            tableRows[i].find_element(xpath: './td[last()-4]').text,
+            tableRows[i].find_element(xpath: './td[last()]').text))
+        end
+
+        return professors
     end
 
 end

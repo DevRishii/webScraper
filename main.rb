@@ -1,4 +1,5 @@
 require "./html.rb"
+require "./scraper.rb"
 require "selenium-webdriver"
 
 
@@ -8,11 +9,12 @@ class Main
 
     puts "Enter the output html file name:"
     file = HTML.new(gets.chomp)
+    scraper = Scraper.new
 
     url = "https://registrar.osu.edu/secure/sei_search/"
 
     #ask user what browser to use and switch the driver based on that
-    driver = Selenium::WebDriver.for :safari
+    driver = Selenium::WebDriver.for :firefox
     driver.navigate.to "https://registrar.osu.edu/secure/sei_search/"
 
     
@@ -26,21 +28,18 @@ class Main
     sleep(1)
     driver.find_element(name: '_eventId_proceed').click
 
-    sleep(20)
+    sleep(10)
 
     driver.find_element(id: "trust-browser-button").click
-    sleep(40)
-    instructorName = driver.find_element(name: "txtInstructor")
-    instructorName.send_keys "OGLE"
+    sleep(20)
+    #instructorName = driver.find_element(name: "txtInstructor")
+    #instructorName.send_keys "OGLE"
 
-    driver.find_element()
+    #driver.find_element()
 
 
 
     # window_after = driver.window_handles[1]
     # driver.switch_to.window(window_after)
-
-
-
 
 end
