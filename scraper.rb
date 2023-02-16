@@ -36,7 +36,17 @@ class Scraper #inherits Selenium::WebDriver
     # Asks the user for the number of the course and passes that into the appropriate field
     # Does not return anything
     def course(driver)
+        puts "Enter the 4 digit course number."
+        courseNum = gets.chomp
+        courseNum = courseNum.to_i
+        
+        while !(courseNum > 0) || !(courseNum < 6000)
+            puts "Entered wrong Number! please enter 4 digit course number."
+            courseNum = gets.chomp
+            courseNum = courseNum.to_i
 
+        end
+        driver.find_element(:id, "txtCourse #").send_keys(courseNum)
     end
 
     # Retrieves all necessary info from the SEI table once its generated

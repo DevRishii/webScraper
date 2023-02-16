@@ -14,12 +14,15 @@ class HTML
 
     # start html page
     def startPage
-
+        puts "<!DOCTYPE html>"
+        puts "<html lang=\"en\">"
+        
     end
 
     # end html page
     def endPage
-
+        puts "</body>"
+        puts "</html>"
     end
 
     # start header for html page
