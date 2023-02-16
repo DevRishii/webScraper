@@ -24,12 +24,12 @@ class HTML
 
     # start header for html page
     def startHeader
-
+        puts "<header>"
     end
 
     # end header for html page
     def endHeader
-
+        puts "</header>"
     end
 
     # add info to header, add parameters for: date, prof name, class name, course number, department, campus
