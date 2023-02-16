@@ -38,9 +38,9 @@ class HTML
     end
 
     # add a row of info to table
-    def addTableInfo(fileContents, instructor, course, term, numberOfSEIs, averageRating)
+    def addTableInfo(fileContents, instructor, course, campus, term, numberOfSEIs, averageRating)
 
-        fileContents += "<tr><td>#{instructor}</td><td>#{course}</td><td>#{term}</td><td>#{numberOfSEIs}</td><td>#{averageRating}</td></tr>"
+        fileContents += "<tr><td>#{instructor}</td><td>#{course}</td><td>#{campus}</td><td>#{term}</td><td>#{numberOfSEIs}</td><td>#{averageRating}</td></tr>"
     end
 
     # start a formatted table from SEI
