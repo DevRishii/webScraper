@@ -33,8 +33,9 @@ class HTML
     end
 
     # add info to header, add parameters for: date, prof name, class name, course number, department, campus
-    def addHeaderInfo
-
+    def addHeaderInfo(fileContents, date, instructor, course, dpt, campus)
+        
+        fileContents += "<h1>#{date}</h1><h2>#{instructor}</h2><h3>#{course}</h3><h4>#{dpt}</h4><h5>#{campus}</h5>"
     end
 
     # add a row of info to table
