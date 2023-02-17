@@ -13,23 +13,23 @@ class HTML
     end
 
     # start html page
-    def startPage
-
+    def startPage(fileContents)
+        
     end
 
     # end html page
-    def endPage
+    def endPage(fileContents)
 
     end
 
     # start header for html page
-    def startHeader
-        puts "<header>"
+    def startHeader(fileContents)
+        fileContents += "<header>"
     end
 
     # end header for html page
-    def endHeader
-        puts "</header>"
+    def endHeader(fileContents)
+        fileContents += "</header>"
     end
 
     # add info to header, add parameters for: date, prof name, class name, course number, department, campus
@@ -39,7 +39,6 @@ class HTML
 
     # add a row of info to table
     def addTableInfo(fileContents, instructor, course, campus, term, numberOfSEIs, averageRating)
-
         fileContents += "<tr><td>#{instructor}</td><td>#{course}</td><td>#{campus}</td><td>#{term}</td><td>#{numberOfSEIs}</td><td>#{averageRating}</td></tr>"
     end
 
@@ -59,26 +58,21 @@ class HTML
         }
         
         tr:hover {background-color: #D6EEEE;}
-        </style>"
+        </style>
+        
+        <tr><td>Instructor</td><td>Course</td><td>Campus</td><td>Term</td><td># of SEI's</td><td>Average Rating</td></tr>
+        "
 
-        # <style type=\"text/css\">table, th, td { border: 1px solid black; border-collapse: collapse; padding: 5px; }</style>
-        # ^ If you want to use it, here is a table style I created for my own testing.
-        # -Hunter
-
-        # <style type=\"text/css\">table, th, td { border: 1px solid black; border-collapse: collapse; padding: 5px; }</style>
-        # ^ If you want to use it, here is a table style I created for my own testing.
-        # -Hunter
 
     end
 
     # end a formatted table from SEI
-    def endTable
+    def endTable(fileContents)
         fileContents += "</table>"
     end
 
     # output html file (creates html file)
     def output(fileContents)
-
         File.open(@fileName, "w") {|f| f.write(fileContents)}     
     end
 
