@@ -24,12 +24,12 @@ class HTML
 
     # start header for html page
     def startHeader
-
+        puts "<header>"
     end
 
     # end header for html page
     def endHeader
-
+        puts "</header>"
     end
 
     # add info to header, add parameters for: date, prof name, class name, course number, department, campus
@@ -38,9 +38,9 @@ class HTML
     end
 
     # add a row of info to table
-    def addTableInfo(fileContents, instructor, course, term, numberOfSEIs, averageRating)
+    def addTableInfo(fileContents, instructor, course, campus, term, numberOfSEIs, averageRating)
 
-        fileContents += "<tr><td>#{instructor}</td><td>#{course}</td><td>#{term}</td><td>#{numberOfSEIs}</td><td>#{averageRating}</td></tr>"
+        fileContents += "<tr><td>#{instructor}</td><td>#{course}</td><td>#{campus}</td><td>#{term}</td><td>#{numberOfSEIs}</td><td>#{averageRating}</td></tr>"
     end
 
     # start a formatted table from SEI

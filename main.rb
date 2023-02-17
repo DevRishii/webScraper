@@ -1,4 +1,5 @@
 require "./html.rb"
+require "./scraper.rb"
 require "selenium-webdriver"
 
 
