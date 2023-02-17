@@ -13,16 +13,16 @@ class HTML
     end
 
     # start html page
-    def startPage
-        puts "<!DOCTYPE html>"
-        puts "<html lang=\"en\">"
+    def startPage(fileContents)
+        fileContents += "<!DOCTYPE html>"
+        fileContents += "<html lang=\"en\">"
         
     end
 
     # end html page
-    def endPage
-        puts "</body>"
-        puts "</html>"
+    def endPage(fileContents)
+        fileContents += "</body>"
+        fileContents += "</html>"
     end
 
     # start header for html page
