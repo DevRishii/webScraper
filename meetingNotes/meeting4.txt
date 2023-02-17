@@ -1,0 +1,26 @@
+Attendees: Rishi, Hunter, Ethan, Mia, Henry, Andy
+
+Meeting 4 (2/16/23)
+
+Next Meeting: Monday (2/19/23)
+
+Today we went tested out the program to make sure the main functionality worked, which it did. 
+
+Things left to do: Add better visuals, Fix formatting issues, Add more user options
+
+Delegation:
+
+- Hunter: waitUntil functions in main, optimizing main.rb code (help with table)
+- Rishi: Better visuals for Table
+- Mia: TBD
+- Ethan: Better visuals for Header
+- Henry: campus function (have done by saturday)
+- Andy: department function (have done by saturday)
+
+GOAL: 
+    Try to have everything done by Monday
+
+REMINDERS:
+    Make sure to create a branch for whatever code you are working on. If you feel comfortable merging 
+    go for it, if not we can do that together next meeting. 
+    Inform the chat whenever code gets pushed to avoid merge conflicts.

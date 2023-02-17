@@ -19,6 +19,11 @@ class Professor
     def course
         @course
     end
+    
+    #returns campus name
+    def campus
+        @campus
+    end
 
     #returns term name
     def term

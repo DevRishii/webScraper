@@ -1,15 +1,22 @@
 require "./html.rb"
 require "./scraper.rb"
 require "selenium-webdriver"
+require "date"
 
 
 
 # main class
 class Main
 
+    # testP = Professor.new("testName", "testCourse", "testCampus", "testTerm", "testSEI#", "testAVGRating")
+    # puts testP.instructor
+    
+    #Creates new HTML page object
     puts "Enter the output html file name:"
-    file = HTML.new(gets.chomp)
+    htmlOutput = HTML.new(gets.chomp)
     scraper = Scraper.new
+    #creates the string containing all HTML code
+    fileContents = ""
 
     url = "https://registrar.osu.edu/secure/sei_search/"
 
@@ -52,15 +59,12 @@ class Main
     passwordField = driver.find_element(name: 'j_password')
     passwordField.send_keys password
 
-    sleep(1)
     driver.find_element(name: '_eventId_proceed').click
 
     puts "waiting for duo trust to appear"
     sleep(20)
 
     driver.find_element(id: "trust-browser-button").click
-
-    driver.navigate.to url
 
     puts "Would you like to search with the instructor name, by course #, or both? (1 - Instructor name, 2 - Course #, 3 - Both): "
 
@@ -91,31 +95,29 @@ class Main
 
     professorInfo = scraper.retrieveSEI(driver)
 
-    #Creates new HTML page object
-    htmlOutput = HTML.new(file)
 
-    #creates the string containing all HTML code
-    fileContents = ""
+    
 
     #Adds all the necessary HTML formatting things 
-    htmlOutput.startPage(fileContents)
-    htmlOutput.startHeader(fileContents)
-    htmlOutput.addHeaderInfo(fileContents)
-    htmlOutput.endHeader(fileContents)
-    htmlOutput.startTable(fileContents)
+    fileContents = htmlOutput.startPage(fileContents)
+    fileContents = htmlOutput.startHeader(fileContents)
+    fileContents = htmlOutput.addHeaderInfo(fileContents, DateTime.now.strftime("%d/%m/%Y %H:%M"))
+    fileContents = htmlOutput.endHeader(fileContents)
+    fileContents = htmlOutput.startTable(fileContents)
     
     #Populates table by adding row info
-    for 0...professorInfo.length()
-        htmlOutput.addTableInfo(fileContents, 
+    for i in 0..professorInfo.length-1 do
+        fileContents = htmlOutput.addTableInfo(fileContents, 
             professorInfo[i].instructor, 
-            professorInfo[i].course, 
+            professorInfo[i].course,
+            professorInfo[i].campus,  
             professorInfo[i].term, 
             professorInfo[i].numberOfSEIs, 
             professorInfo[i].averageRating)
     end
 
     
-    htmlOutput.endTable(fileContents)
+    fileContents = htmlOutput.endTable(fileContents)
 
 
     #Start of loop to decide if user wants to generate more SEI's
@@ -154,19 +156,20 @@ class Main
 
             professorInfo = scraper.retrieveSEI(driver)
 
-            htmlOutput.startTable(fileContents)
+            fileContents = htmlOutput.startTable(fileContents)
     
-            for 0...professorInfo.length()
-                htmlOutput.addTableInfo(fileContents, 
+            for i in 0..professorInfo.length-1 do
+                fileContents = htmlOutput.addTableInfo(fileContents, 
                     professorInfo[i].instructor, 
-                    professorInfo[i].course, 
+                    professorInfo[i].course,
+                    professorInfo[i].campus, 
                     professorInfo[i].term, 
                     professorInfo[i].numberOfSEIs, 
                     professorInfo[i].averageRating)
             end
 
             
-            htmlOutput.endTable(fileContents)
+            fileContents = htmlOutput.endTable(fileContents)
 
             puts "Would you like to search for another class? (1 - Yes, 2 - No): "
             repeatSearch = gets.chomp
@@ -179,7 +182,7 @@ class Main
                 elsif (repeatSearch == "2")
                     loop = false
                     innerLoop = false
-                    htmlOutput.endPage(fileContents)
+                    fileContents = htmlOutput.endPage(fileContents)
                 else
                     puts "Invalid choice, please choose a number from 1-2"
                 end
@@ -187,7 +190,7 @@ class Main
 
         elsif (repeatSearch == "2") #Does not want to do anymore searches, finishes HTML page
             
-            htmlOutput.endPage(fileContents)
+            fileContents = htmlOutput.endPage(fileContents)
             loop = false
         else 
             puts "Invalid choice, please choose a number from 1-2"
