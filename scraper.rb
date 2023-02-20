@@ -27,19 +27,24 @@ class Scraper #inherits Selenium::WebDriver
         
         selectedList = driver.find_element(:xpath, "//select[@id = 'ddCampus']")
         dropdowns = selectedList.find_elements(:tag_name, "option")
-        puts "Please enter your campus abbreviation(i.e. COL for Columbus): "
+        match = false
+        puts "Campus abbreviations - COL, MNS, NWK, MRN, LMA, WST."
+        puts "Please enter your campus abbreviation: "
         campus = gets.chomp #gets the campus from the user
         
-        dropdowns.each do |option|
-            if campus == option.attribute("text")
-                option.click
-                sleep(5)
-                break
-            else 
-                puts "Wrong input. Please enter your campus abbreviation again(i.e. COL for Columbus): "
+        while match == false
+            dropdowns.each do |option|
+                if campus == option.text
+                    option.click
+                    match = true
+                    break
+                end
+            end
+            if match == false
+                puts "Wrong input. Please enter your campus abbreviation again (i.e. COL for Columbus): "
                 campus = gets.chomp #gets the campus from the user
             end
-        end 
+        end
     end
 
     # Asks the user for the name of the instructor and passes that into the appropriate field

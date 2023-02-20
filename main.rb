@@ -62,7 +62,7 @@ class Main
     driver.find_element(name: '_eventId_proceed').click
 
     puts "waiting for duo trust to appear"
-    sleep(20)
+    sleep(10)
 
     driver.find_element(id: "trust-browser-button").click
 
