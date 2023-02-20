@@ -26,20 +26,30 @@ class Main
     while (loop)
         browser = gets.chomp
         
-        if (browser == "1")
-            driver = Selenium::WebDriver.for :chrome
-            loop = false
-        elsif (browser == "2") 
-            driver = Selenium::WebDriver.for :edge
-            loop = false
-        elsif (browser == "3") 
-            driver = Selenium::WebDriver.for :firefox
-            loop = false
-        elsif (browser == "4") 
-            driver = Selenium::WebDriver.for :safari
-            loop = false
-        else 
-            puts "Wrong input please chose a number from 1-4: "
+        # All browsers, besides safari, will successfully run headless (doesn't open a browser window).
+        # Since I'm on linux, I didn't figure out how to make the safari browser headless.
+        # - Hunter
+        begin
+            if (browser == "1")
+                options = Selenium::WebDriver::Chrome::Options.new(args: ['-headless'])
+                driver = Selenium::WebDriver.for(:chrome, options: options)
+                loop = false
+            elsif (browser == "2") 
+                options = Selenium::WebDriver::Edge::Options.new(args: ['-headless'])
+                driver = Selenium::WebDriver.for(:edge, options: options)
+                loop = false
+            elsif (browser == "3") 
+                options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless'])
+                driver = Selenium::WebDriver.for(:firefox, options: options)
+                loop = false
+            elsif (browser == "4") 
+                driver = Selenium::WebDriver.for :safari
+                loop = false
+            else 
+                puts "Wrong input please chose a number from 1-4: "
+            end
+        rescue
+            puts "You do not have this browser installed. Please choose another browser."
         end
     end
 
@@ -47,24 +57,78 @@ class Main
     puts "System is loading..."
     driver.navigate.to url
 
-    puts "Enter your OSU username (name.#): "
-    username = gets.chomp
+    validLogin = false
+    while validLogin == false
 
-    puts "Enter your OSU password: "
-    password = gets.chomp
+        validLogin = true
 
-    usernameField = driver.find_element(name: 'j_username')
-    usernameField.send_keys username
+        puts "Enter your OSU username (name.#): "
+        username = gets.chomp
 
-    passwordField = driver.find_element(name: 'j_password')
-    passwordField.send_keys password
+        puts "Enter your OSU password: "
+        password = gets.chomp
 
-    driver.find_element(name: '_eventId_proceed').click
+        usernameField = driver.find_element(name: 'j_username')
+        usernameField.clear
+        usernameField.send_keys username
 
-    puts "waiting for duo trust to appear"
-    sleep(10)
+        passwordField = driver.find_element(name: 'j_password')
+        passwordField.clear
+        passwordField.send_keys password
 
-    driver.find_element(id: "trust-browser-button").click
+        driver.find_element(name: '_eventId_proceed').click
+
+        findDuo = false
+        while findDuo == false
+            begin
+                driver.find_element(id: 'header-text')
+                findDuo = true
+            rescue
+                begin
+                    driver.find_element(xpath: "//div[@class='error notification']")
+                    puts "Your OSU username or password was not valid."
+                    validLogin = false
+                    findDuo = true
+                rescue
+                    sleep(1)
+                end
+            end
+        end
+    end
+
+    puts "Please approve duo trust to continue."
+    
+    continue = false
+    while continue == false
+        begin
+            driver.find_element(id: 'trust-this-browser-label')
+            continue = true
+        rescue
+            begin
+                driver.find_element(xpath: "//button[@class='button--primary button--xlarge try-again-button']")
+                puts "Duo trust timed out. Trying again."
+                driver.find_element(xpath: "//button[@class='button--primary button--xlarge try-again-button']").click
+            rescue
+                begin
+                    driver.find_element(id: 'error-view-header-text')
+                    puts "Duo trust was denied. Trying again."
+                    driver.find_element(xpath: "//a[@class='action-link']").click
+                rescue
+                    sleep(1)
+                end
+            end
+        end
+    end
+
+    trust = false
+    while trust == false
+        begin
+            driver.find_element(id: "trust-browser-button").click
+            trust = true
+        rescue
+            sleep(1)
+        end
+    end
 
     puts "Would you like to search with the instructor name, by course #, or both? (1 - Instructor name, 2 - Course #, 3 - Both): "
 
@@ -87,7 +151,20 @@ class Main
     end
     
     scraper.campus(driver)
-    scraper.department(driver)
+
+    puts "Would you like to narrow your search by selecting a department? (1 Yes, 2 - No): "
+    loop = true
+    while loop == true
+        choice = gets.chomp
+        if choice == "1"
+            scraper.department(driver)
+            loop = false
+        elsif choice == "2"
+            loop = false
+        else
+            puts "Invalid choice, please choose a number from 1-2"
+        end
+    end
 
     driver.find_element(name: "btnSearch").click
 
@@ -98,7 +175,7 @@ class Main
     #Adds all the necessary HTML formatting things 
     fileContents = htmlOutput.startPage(fileContents)
     fileContents = htmlOutput.startHeader(fileContents)
-    fileContents = htmlOutput.addHeaderInfo(fileContents, DateTime.now.strftime("%d/%m/%Y %H:%M"))
+    fileContents = htmlOutput.addHeaderInfo(fileContents, DateTime.now.strftime("%m/%d/%Y %H:%M"))
     fileContents = htmlOutput.endHeader(fileContents)
 
     foundSEIs = false
@@ -152,7 +229,20 @@ class Main
             end
             
             scraper.campus(driver)
-            scraper.department(driver)
+            
+            puts "Would you like to narrow your search by selecting a department? (1 Yes, 2 - No): "
+            loop = true
+            while loop == true
+                choice = gets.chomp
+                if choice == "1"
+                    scraper.department(driver)
+                    loop = false
+                elsif choice == "2"
+                    loop = false
+                else
+                    puts "Invalid choice, please choose a number from 1-2"
+                end
+            end
 
             driver.find_element(name: "btnSearch").click
 
@@ -178,25 +268,7 @@ class Main
             end
 
             puts "Would you like to search for another class? (1 - Yes, 2 - No): "
-            repeatSearch = gets.chomp
-
-            innerLoop = true
-            while (innerLoop)
-                if (repeatSearch == "1")
-                    loop = true
-                    innerLoop = false
-                elsif (repeatSearch == "2")
-                    loop = false
-                    innerLoop = false
-                    # if no SEI results were found before the user is done, display that in the HTML page
-                    if foundSEIs == false
-                        fileContents += "<p>No SEI results were found</p>"
-                    end
-                    fileContents = htmlOutput.endPage(fileContents)
-                else
-                    puts "Invalid choice, please choose a number from 1-2"
-                end
-            end
+            loop = true
 
         elsif (repeatSearch == "2") #Does not want to do anymore searches, finishes HTML page
             
@@ -211,8 +283,9 @@ class Main
         end
     end
 
+    driver.quit
     htmlOutput.output(fileContents)
-
+    puts "Exiting program...."
 
 
 end

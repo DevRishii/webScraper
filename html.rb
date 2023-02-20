@@ -76,6 +76,7 @@ class HTML
 
     # output html file (creates html file)
     def output(fileContents)
+        puts "Saving your SEI results to #{@fileName}"
         File.open(@fileName, "w") {|f| f.write(fileContents)}     
     end
 
