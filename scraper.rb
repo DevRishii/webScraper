@@ -61,7 +61,7 @@ class Scraper #inherits Selenium::WebDriver
             courseNum = courseNum.to_i
 
         end
-        driver.find_element(:id, "txtCourse #").send_keys(courseNum)
+        driver.find_element(:id, "txtCourse").send_keys(courseNum)
     end
 
     # Retrieves all necessary info from the SEI table once its generated
