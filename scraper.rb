@@ -97,17 +97,22 @@ class Scraper #inherits Selenium::WebDriver
     # instances of that professor on the table
     def retrieveSEI(driver)
 
-        table = driver.find_element(id: 'dgSEI')
-        tableRows = table.find_elements(xpath: '//tr')
         professors = Array.new
 
-        for i in 1..tableRows.length - 1 do
-            professors.push(Professor.new(tableRows[i].find_element(xpath: './td[last()-9]').text, 
-            tableRows[i].find_element(xpath: './td[last()-8]').text, 
-            tableRows[i].find_element(xpath: './td[last()-7]').text, 
-            tableRows[i].find_element(xpath: './td[last()-6]').text,
-            tableRows[i].find_element(xpath: './td[last()-4]').text,
-            tableRows[i].find_element(xpath: './td[last()]').text))
+        begin
+            table = driver.find_element(id: 'dgSEI')
+            tableRows = table.find_elements(xpath: '//tr')
+
+            for i in 1..tableRows.length - 1 do
+                professors.push(Professor.new(tableRows[i].find_element(xpath: './td[last()-9]').text, 
+                tableRows[i].find_element(xpath: './td[last()-8]').text, 
+                tableRows[i].find_element(xpath: './td[last()-7]').text, 
+                tableRows[i].find_element(xpath: './td[last()-6]').text,
+                tableRows[i].find_element(xpath: './td[last()-4]').text,
+                tableRows[i].find_element(xpath: './td[last()]').text))
+            end
+        rescue
+            puts "No SEI results were found with your search criteria."
         end
 
         return professors

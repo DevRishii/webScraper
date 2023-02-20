@@ -90,35 +90,37 @@ class Main
     scraper.department(driver)
 
     driver.find_element(name: "btnSearch").click
-    
-    puts "Would you like to search for another class? (1 - Yes, 2 - No): "
 
     professorInfo = scraper.retrieveSEI(driver)
-
-
     
+    puts "Would you like to search for another class? (1 - Yes, 2 - No): "
 
     #Adds all the necessary HTML formatting things 
     fileContents = htmlOutput.startPage(fileContents)
     fileContents = htmlOutput.startHeader(fileContents)
     fileContents = htmlOutput.addHeaderInfo(fileContents, DateTime.now.strftime("%d/%m/%Y %H:%M"))
     fileContents = htmlOutput.endHeader(fileContents)
-    fileContents = htmlOutput.startTable(fileContents)
+
+    foundSEIs = false
+    # Only adds a table if at least one SEI was found
+    if professorInfo.length != 0
+        fileContents = htmlOutput.startTable(fileContents)
     
-    #Populates table by adding row info
-    for i in 0..professorInfo.length-1 do
-        fileContents = htmlOutput.addTableInfo(fileContents, 
-            professorInfo[i].instructor, 
-            professorInfo[i].course,
-            professorInfo[i].campus,  
-            professorInfo[i].term, 
-            professorInfo[i].numberOfSEIs, 
-            professorInfo[i].averageRating)
+        #Populates table by adding row info
+        for i in 0..professorInfo.length-1 do
+            fileContents = htmlOutput.addTableInfo(fileContents, 
+                professorInfo[i].instructor, 
+                professorInfo[i].course,
+                professorInfo[i].campus,  
+                professorInfo[i].term, 
+                professorInfo[i].numberOfSEIs, 
+                professorInfo[i].averageRating)
+        end
+
+    
+        fileContents = htmlOutput.endTable(fileContents)
+        foundSEIs = true
     end
-
-    
-    fileContents = htmlOutput.endTable(fileContents)
-
 
     #Start of loop to decide if user wants to generate more SEI's
     loop = true
@@ -156,20 +158,24 @@ class Main
 
             professorInfo = scraper.retrieveSEI(driver)
 
-            fileContents = htmlOutput.startTable(fileContents)
+            # Only adds a table if at least one SEI was found
+            if professorInfo.length != 0
+                fileContents = htmlOutput.startTable(fileContents)
     
-            for i in 0..professorInfo.length-1 do
-                fileContents = htmlOutput.addTableInfo(fileContents, 
-                    professorInfo[i].instructor, 
-                    professorInfo[i].course,
-                    professorInfo[i].campus, 
-                    professorInfo[i].term, 
-                    professorInfo[i].numberOfSEIs, 
-                    professorInfo[i].averageRating)
-            end
+                for i in 0..professorInfo.length-1 do
+                    fileContents = htmlOutput.addTableInfo(fileContents, 
+                        professorInfo[i].instructor, 
+                        professorInfo[i].course,
+                        professorInfo[i].campus, 
+                        professorInfo[i].term, 
+                        professorInfo[i].numberOfSEIs, 
+                        professorInfo[i].averageRating)
+                end
 
             
-            fileContents = htmlOutput.endTable(fileContents)
+                fileContents = htmlOutput.endTable(fileContents)
+                foundSEIs = true
+            end
 
             puts "Would you like to search for another class? (1 - Yes, 2 - No): "
             repeatSearch = gets.chomp
@@ -182,6 +188,10 @@ class Main
                 elsif (repeatSearch == "2")
                     loop = false
                     innerLoop = false
+                    # if no SEI results were found before the user is done, display that in the HTML page
+                    if foundSEIs == false
+                        fileContents += "<p>No SEI results were found</p>"
+                    end
                     fileContents = htmlOutput.endPage(fileContents)
                 else
                     puts "Invalid choice, please choose a number from 1-2"
@@ -190,6 +200,10 @@ class Main
 
         elsif (repeatSearch == "2") #Does not want to do anymore searches, finishes HTML page
             
+            # if no SEI results were found before the user is done, display that in the HTML page
+            if foundSEIs == false
+                fileContents += "<p>No SEI results were found</p>"
+            end
             fileContents = htmlOutput.endPage(fileContents)
             loop = false
         else 
