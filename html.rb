@@ -46,12 +46,16 @@ class HTML
     end
 
     # start a formatted table from SEI
-    def startTable(fileContents)
+    def startTable(fileContents, searchNumber)
+
+        # adds how many searches the user has done to the top of the table
+        fileContents += "Search: ##{searchNumber}"
 
         fileContents += "<table> <style>
         table {
           border-collapse: collapse;
           width: 100%;
+          margin-bottom: 30px;
         }
         
         th, td {

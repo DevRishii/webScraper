@@ -17,6 +17,7 @@ class Main
     scraper = Scraper.new
     #creates the string containing all HTML code
     fileContents = ""
+    searchNumber = 1
 
     url = "https://registrar.osu.edu/secure/sei_search/"
 
@@ -181,7 +182,7 @@ class Main
     foundSEIs = false
     # Only adds a table if at least one SEI was found
     if professorInfo.length != 0
-        fileContents = htmlOutput.startTable(fileContents)
+        fileContents = htmlOutput.startTable(fileContents, searchNumber)
     
         #Populates table by adding row info
         for i in 0..professorInfo.length-1 do
@@ -204,6 +205,7 @@ class Main
     while (loop)
         repeatSearch = gets.chomp
         if (repeatSearch == "1") #Wants to do more searches
+            searchNumber += 1
             
             driver.find_element(name: 'btnClear').click
 
@@ -250,7 +252,7 @@ class Main
 
             # Only adds a table if at least one SEI was found
             if professorInfo.length != 0
-                fileContents = htmlOutput.startTable(fileContents)
+                fileContents = htmlOutput.startTable(fileContents, searchNumber)
     
                 for i in 0..professorInfo.length-1 do
                     fileContents = htmlOutput.addTableInfo(fileContents, 
