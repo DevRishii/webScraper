@@ -1,0 +1,16 @@
+Attendees: Rishi, Hunter, Ethan, Mia, Henry
+
+Meeting 5 (2/20/23)
+
+Next Meeting: Tuesday (2/21/23)
+
+This meeting we went over the full program and made sure everything worked properly.
+
+Things left to do: Create a better UI visualization for the website 
+    (add table backgrounds/colors)
+    (add website background/color)
+    (add color to texts)
+
+Delegation:
+
+- Rishi: Better visualizations (finish tasks from last meeting)

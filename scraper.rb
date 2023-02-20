@@ -30,7 +30,7 @@ class Scraper #inherits Selenium::WebDriver
         match = false
         puts "Campus abbreviations - COL, MNS, NWK, MRN, LMA, WST."
         puts "Please enter your campus abbreviation: "
-        campus = gets.chomp #gets the campus from the user
+        campus = gets.chomp.upcase #gets the campus from the user
         
         while match == false
             dropdowns.each do |option|
@@ -42,7 +42,7 @@ class Scraper #inherits Selenium::WebDriver
             end
             if match == false
                 puts "Wrong input. Please enter your campus abbreviation again (i.e. COL for Columbus): "
-                campus = gets.chomp #gets the campus from the user
+                campus = gets.chomp.upcase #gets the campus from the user
             end
         end
     end
@@ -55,11 +55,11 @@ class Scraper #inherits Selenium::WebDriver
         dropdowns = selectedList.find_elements(:tag_name, "option")
         match = false
         puts "Please enter your department abbreviation: "
-        campus = gets.chomp #gets the campus from the user
+        department = gets.chomp.upcase #gets the department from the user
         
         while match == false
             dropdowns.each do |option|
-                if campus == option.text
+                if department == option.text
                     option.click
                     match = true
                     break
@@ -67,7 +67,7 @@ class Scraper #inherits Selenium::WebDriver
             end
             if match == false
                 puts "Wrong input. Please enter your department abbreviation again (i.e. CSE for Computer Science): "
-                campus = gets.chomp #gets the campus from the user
+                department = gets.chomp.upcase #gets the department from the user
             end
         end
     end

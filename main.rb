@@ -8,9 +8,6 @@ require "date"
 # main class
 class Main
 
-    # testP = Professor.new("testName", "testCourse", "testCampus", "testTerm", "testSEI#", "testAVGRating")
-    # puts testP.instructor
-    
     #Creates new HTML page object
     puts "Enter the output html file name:"
     htmlOutput = HTML.new(gets.chomp)
