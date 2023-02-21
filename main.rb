@@ -6,13 +6,13 @@ require "date"
 # main class
 class Main
 
-    #Creates new HTML page object
+    
     puts "Enter the output html file name:"
-    htmlOutput = HTML.new(gets.chomp)
-    scraper = Scraper.new
-    #creates the string containing all HTML code
-    fileContents = ""
-    searchNumber = 1
+
+    htmlOutput = HTML.new(gets.chomp) #Create new HTML page object with input from user
+    scraper = Scraper.new #Create new scraper object
+    fileContents = "" #creates the string containing all HTML code
+    searchNumber = 1 #Number of SEI searches conducted by scraper
 
     url = "https://registrar.osu.edu/secure/sei_search/"
 
@@ -26,6 +26,7 @@ class Main
         # Since I'm on linux, I didn't figure out how to make the safari browser headless.
         # - Hunter
         begin
+            #change driver based on user input of desired browser
             if (browser == "1")
                 options = Selenium::WebDriver::Chrome::Options.new(args: ['-headless'])
                 driver = Selenium::WebDriver.for(:chrome, options: options)
@@ -49,21 +50,24 @@ class Main
         end
     end
 
-    #ask user what browser to use and switch the driver based on that
     puts "System is loading..."
+    #open browser and navagate to SEI website
     driver.navigate.to url
 
+    #Loop until proper log in information is entered
     validLogin = false
     while validLogin == false
 
         validLogin = true
 
+        #prompt for Username and password
         puts "Enter your OSU username (name.#): "
         username = gets.chomp
 
         puts "Enter your OSU password: "
         password = gets.chomp
 
+        #locate login fields and input user information
         usernameField = driver.find_element(name: 'j_username')
         usernameField.clear
         usernameField.send_keys username
@@ -72,15 +76,19 @@ class Main
         passwordField.clear
         passwordField.send_keys password
 
+        #locate "Login" button and activate click
         driver.find_element(name: '_eventId_proceed').click
 
+        #Loop until duo authentication is found
         findDuo = false
         while findDuo == false
             begin
+                #attempt to find specific element on duo page proving log in information was correct
                 driver.find_element(id: 'header-text')
                 findDuo = true
             rescue
                 begin
+                    #rescue exception of improper log in information and restart log in process
                     driver.find_element(xpath: "//div[@class='error notification']")
                     puts "Your OSU username or password was not valid."
                     validLogin = false
@@ -94,6 +102,8 @@ class Main
 
     puts "Please approve duo trust to continue."
     
+    #Loop until trust browser label is found
+    #Rescuing time out and duo trust exceptions
     continue = false
     while continue == false
         begin
@@ -116,6 +126,7 @@ class Main
         end
     end
 
+    #Click trust browser button loop
     trust = false
     while trust == false
         begin
@@ -128,6 +139,7 @@ class Main
 
     puts "Would you like to search with the instructor name, by course #, or both? (1 - Instructor name, 2 - Course #, 3 - Both): "
 
+    #Determine search conditions and call proper scraper functions
     loop = true
     while (loop)
         searchChoice = gets.chomp
@@ -146,9 +158,13 @@ class Main
         end
     end
     
+    #Determine what campus to search
     scraper.campus(driver)
 
+
     puts "Would you like to narrow your search by selecting a department? (1 - Yes, 2 - No): "
+
+    #Loop until department subject is filled with proper information
     loop = true
     while loop == true
         choice = gets.chomp
@@ -162,13 +178,14 @@ class Main
         end
     end
 
+    #locate and click search button
     driver.find_element(name: "btnSearch").click
 
-    professorInfo = scraper.retrieveSEI(driver)
-    
-    puts "Would you like to search for another class? (1 - Yes, 2 - No): "
+    puts "Please wait one moment while SEI information is retrieved, Loading...",""
 
-    #Adds all the necessary HTML formatting things 
+    professorInfo = scraper.retrieveSEI(driver)
+
+    #Start HTML page by adding header and header info to fileContent string
     fileContents = htmlOutput.startPage(fileContents)
     fileContents = htmlOutput.startHeader(fileContents)
     fileContents = htmlOutput.addHeaderInfo(fileContents, DateTime.now.strftime("%m/%d/%Y %H:%M"))
@@ -190,18 +207,20 @@ class Main
                 professorInfo[i].averageRating)
         end
 
-    
         fileContents = htmlOutput.endTable(fileContents)
         foundSEIs = true
     end
+
+    puts "Would you like to search for another class? (1 - Yes, 2 - No): "
 
     #Start of loop to decide if user wants to generate more SEI's
     loop = true
     while (loop)
         repeatSearch = gets.chomp
         if (repeatSearch == "1") #Wants to do more searches
-            searchNumber += 1
+            searchNumber += 1 #increment number of searches
             
+            #Locate and click clear button and redo search criteria
             driver.find_element(name: 'btnClear').click
 
             puts "Would you like to search with the instructor name, by course #, or both? (1 - Instructor name, 2 - Course #, 3 - Both): "
@@ -283,6 +302,5 @@ class Main
     driver.quit
     htmlOutput.output(fileContents)
     puts "Exiting program...."
-
 
 end

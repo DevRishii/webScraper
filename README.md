@@ -1,4 +1,4 @@
-Names: Hunter Ashburn (@HunterAshburn), Rishi Patel (@DevRishii), Mia Choi (@Mia0729), Ethan Shi (@morikikiki22), Henry Cao (@HenryCao0121)
+Names: Hunter Ashburn (@HunterAshburn), Rishi Patel (@DevRishii), Mia Choi (@Mia0729), Ethan Shi (@morikikiki22), Henry Cao (@HenryCao0121), Andrew Rappach (@rappspaps)
 
 This is the OSU SEI Webscraper
 
