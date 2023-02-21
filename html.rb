@@ -21,18 +21,80 @@ class HTML
 
     # end html page
     def endPage(fileContents)
-        fileContents += "</body>"
-        fileContents += "</html>"
+        fileContents += "
+        </body>"
+        fileContents += "
+        </html>"
     end
 
     # start header for html page
     def startHeader(fileContents)
-        fileContents += "<header>"
+        fileContents += "
+        <header>
+        <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+          }
+    
+          body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+          }
+    
+          h1 {
+            text-align: center;
+            padding: 20px;
+            background-color: #c70619;
+            color: white;
+            font-size: 36px;
+            margin-bottom: 20px;
+          }
+    
+          h2 {
+            font-size: 28px;
+            font-weight: bold;
+            color: #c70619;
+            margin-bottom: 15px;
+          }
+    
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background-color: white;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+          }
+    
+          th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+          }
+    
+          th {
+            background-color: #c70619;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+          }
+    
+          tr:nth-child(even) {
+            background-color: #dbdbdb;
+          }
+    
+          tr:hover {
+            background-color: #c70619;
+            color: white;
+          }
+        </style>"
     end
 
     # end header for html page
     def endHeader(fileContents)
-        fileContents += "</header>"
+        fileContents += "
+        </header>"
     end
 
     # add info to header, add parameters for: date, prof name, class name, course number, department, campus
@@ -42,35 +104,36 @@ class HTML
 
     # add a row of info to table
     def addTableInfo(fileContents, instructor, course, campus, term, numberOfSEIs, averageRating)
-        fileContents += "<tr><td>#{instructor}</td><td>#{course}</td><td>#{campus}</td><td>#{term}</td><td>#{numberOfSEIs}</td><td>#{averageRating}</td></tr>"
+
+        fileContents += "<tr>
+            <td>#{instructor}</td>
+            <td>#{course}</td>
+            <td>#{campus}</td>
+            <td>#{term}</td>
+            <td>#{numberOfSEIs}</td>
+            <td>#{averageRating}</td>
+            </tr>"
     end
 
     # start a formatted table from SEI
     def startTable(fileContents, searchNumber)
 
         # adds how many searches the user has done to the top of the table
-        fileContents += "Search: ##{searchNumber}"
+        fileContents += "
+        <h2>
+        Search: ##{searchNumber}
+        </h2>"
 
-        fileContents += "<table> <style>
-        table {
-          border-collapse: collapse;
-          width: 100%;
-          margin-bottom: 30px;
-        }
-        
-        th, td {
-          padding: 8px;
-          text-align: left;
-          border-bottom: 1px solid #ddd;
-        }
-        
-        tr:hover {background-color: #D6EEEE;}
-        </style>
-        
-        <tr><td>Instructor</td><td>Course</td><td>Campus</td><td>Term</td><td># of SEI's</td><td>Average Rating</td></tr>
+        fileContents += "<table> 
+        <thead><tr>
+        <th>Instructor</th>
+        <th>Course</th>
+        <th>Campus</th>
+        <th>Term</td>
+        <th># of SEI's</th>
+        <th>Average Rating</th>
+        </tr></thead>
         "
-
-
     end
 
     # end a formatted table from SEI
