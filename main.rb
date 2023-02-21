@@ -3,8 +3,6 @@ require "./scraper.rb"
 require "selenium-webdriver"
 require "date"
 
-
-
 # main class
 class Main
 
@@ -150,7 +148,7 @@ class Main
     
     scraper.campus(driver)
 
-    puts "Would you like to narrow your search by selecting a department? (1 Yes, 2 - No): "
+    puts "Would you like to narrow your search by selecting a department? (1 - Yes, 2 - No): "
     loop = true
     while loop == true
         choice = gets.chomp
@@ -229,7 +227,7 @@ class Main
             
             scraper.campus(driver)
             
-            puts "Would you like to narrow your search by selecting a department? (1 Yes, 2 - No): "
+            puts "Would you like to narrow your search by selecting a department? (1 - Yes, 2 - No): "
             loop = true
             while loop == true
                 choice = gets.chomp
@@ -255,7 +253,7 @@ class Main
                     fileContents = htmlOutput.addTableInfo(fileContents, 
                         professorInfo[i].instructor, 
                         professorInfo[i].course,
-                        professorInfo[i].campus, 
+                        professorInfo[i].campus,  
                         professorInfo[i].term, 
                         professorInfo[i].numberOfSEIs, 
                         professorInfo[i].averageRating)
