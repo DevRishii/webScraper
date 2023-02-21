@@ -53,6 +53,7 @@ class HTML
           }
     
           h2 {
+            margin: 20px;
             font-size: 28px;
             font-weight: bold;
             color: #c70619;
@@ -60,9 +61,10 @@ class HTML
           }
     
           table {
-            width: 100%;
+            float: center;
+            width: 85%;
+            margin: 20px;
             border-collapse: collapse;
-            margin-bottom: 30px;
             background-color: white;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
           }
